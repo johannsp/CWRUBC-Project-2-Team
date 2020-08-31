@@ -8,6 +8,15 @@ var env       = process.env.NODE_ENV || 'development';
 var config    = require(__dirname + '/../config/config.json')[env];
 var db        = {};
 
+// If password was left as null in ../config/config.json file
+// and if file .mysql is present in application root directory
+// read local password verbatim from this single line file.
+// If password is undefined, for instance with JAWSDB_URL in
+// use instead, this code will not run.
+if (config.password === null && fs.existsSync(".mysql")) {
+  config.password = String(fs.readFileSync(".mysql")).trim();
+}
+
 if (config.use_env_variable) {
   var sequelize = new Sequelize(process.env[config.use_env_variable]);
 } else {
