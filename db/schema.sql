@@ -1,6 +1,6 @@
-DROP DATABASE IF EXISTS vinylD_db;
-CREATE DATABASE vinylD_db;
-USE vinylD_db;
+DROP DATABASE IF EXISTS vinylD_dev;
+CREATE DATABASE vinylD_dev;
+USE vinylD_dev;
 
 DROP TABLE IF EXISTS users;
 CREATE TABLE users (
