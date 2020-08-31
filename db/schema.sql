@@ -1,8 +1,8 @@
-DROP DATABASE IF EXISTS musicBox_db;
+DROP DATABASE IF EXISTS vinylD_db;
 
-CREATE DATABASE musicBox_db;
+CREATE DATABASE vinylD_db;
 
-USE musicBox_db;
+USE vinylD_db;
 
 DROP TABLE IF EXISTS users;
 CREATE TABLE users (
@@ -17,7 +17,16 @@ CREATE TABLE albums (
   title VARCHAR(80) NOT NULL,
   user_id INT NOT NULL,
   CONSTRAINT FK_album_userId FOREIGN KEY (user_id)
-  REFERENCES user(id)
+  REFERENCES users(id)
+);
+
+DROP TABLE IF EXISTS artists;
+CREATE TABLE artists (
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(80) NOT NULL,
+  user_id INT NOT NULL,
+  CONSTRAINT FK_artist_userId FOREIGN KEY (user_id)
+  REFERENCES users(id)
 );
 
 DROP TABLE IF EXISTS songs;
@@ -26,19 +35,22 @@ CREATE TABLE songs (
   title VARCHAR(80) NOT NULL,
   user_id INT NOT NULL,
   CONSTRAINT FK_song_userId FOREIGN KEY (user_id)
-  REFERENCES user(id)
+  REFERENCES users(id)
 );
 
 DROP TABLE IF EXISTS notations;
 CREATE TABLE notations (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  info TEXT NOT NULL,
+  body TEXT NOT NULL,
   album_id INT NOT NULL,
+  artist_id INT NOT NULL,
   song_id INT NOT NULL,
   CONSTRAINT FK_notation_albumId FOREIGN KEY (album_id)
-  REFERENCES album(id) ON DELETE CASCADE,
+  REFERENCES albums(id) ON DELETE CASCADE,
+  CONSTRAINT FK_notation_artistId FOREIGN KEY (artist_id)
+  REFERENCES artists(id) ON DELETE CASCADE,
   CONSTRAINT FK_notation_songId FOREIGN KEY (song_id)
-  REFERENCES song(id) ON DELETE CASCADE
+  REFERENCES songs(id) ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS links;
@@ -48,8 +60,8 @@ CREATE TABLE links (
   album_id INT NOT NULL,
   song_id INT NOT NULL,
   CONSTRAINT FK_link_albumId FOREIGN KEY (album_id)
-  REFERENCES album(id) ON DELETE CASCADE,
+  REFERENCES albums(id) ON DELETE CASCADE,
   CONSTRAINT FK_link_songId FOREIGN KEY (song_id)
-  REFERENCES song(id) ON DELETE CASCADE
+  REFERENCES songs(id) ON DELETE CASCADE
 );
 
