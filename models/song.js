@@ -4,7 +4,7 @@ module.exports = function(sequelize, DataTypes) {
   });
 
   Song.associate = function(models) {
-    // Associating Song with 
+    // Associating Song with
     // When an Album is deleted, also delete any associated Links
     Song.hasMany(models.Link, {
       onDelete: "cascade"
