@@ -3,18 +3,20 @@
 const fs        = require('fs');
 const path      = require('path');
 const Sequelize = require('sequelize');
+// Add step of loading .env for override information during development
+const dotenv    = require('dotenv').config();
+//
 const basename  = path.basename(module.filename);
 const env       = process.env.NODE_ENV || 'development';
 const config    = require(__dirname + '/../config/config.json')[env];
 const db        = {};
 
 // If password was left as null in ../config/config.json file
-// and if file .mysql is present in application root directory
-// read local password verbatim from this single line file.
-// If password is undefined, for instance with JAWSDB_URL in
-// use instead, this code will not run.
-if (config.password === null && fs.existsSync(".mysql")) {
-  config.password = String(fs.readFileSync(".mysql")).trim();
+// and a DB_PASSWORD environment variable was defined, possibly
+// in a .env hidden file loaded by the dotenv module, then use
+// the value of DB_PASSWORD to set config.password.
+if (config.password === null && process.env.DB_PASSWORD) {
+  config.password = process.env.DB_PASSWORD;
 }
 
 /* {{{ **

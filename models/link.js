@@ -1,5 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
-  var Link = sequelize.define("Link", {
+  const Link = sequelize.define("Link", {
     body: {
       type: DataTypes.TEXT,
       allowNull: false,
