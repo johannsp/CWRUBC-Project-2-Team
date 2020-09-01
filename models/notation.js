@@ -1,5 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
-  var Notation = sequelize.define("Notation", {
+  const Notation = sequelize.define("Notation", {
     body: {
       type: DataTypes.TEXT,
       allowNull: false,
