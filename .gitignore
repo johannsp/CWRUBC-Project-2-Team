@@ -5,3 +5,4 @@ package-lock.json
 reference/**
 .vimrc
 .mysql
+.env
