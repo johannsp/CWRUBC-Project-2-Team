@@ -4,7 +4,7 @@ module.exports = function(sequelize, DataTypes) {
   });
 
   Artist.associate = function(models) {
-    // Associating Artist with 
+    // Associating Artist with
     // When an Artist is deleted, also delete any associated Notations
     Artist.hasMany(models.Notation, {
       onDelete: "cascade"

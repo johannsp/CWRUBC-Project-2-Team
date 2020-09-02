@@ -4,7 +4,7 @@ module.exports = function(sequelize, DataTypes) {
   });
 
   Album.associate = function(models) {
-    // Associating Album with 
+    // Associating Album with
     // When an Album is deleted, also delete any associated Links
     Album.hasMany(models.Link, {
       onDelete: "cascade"

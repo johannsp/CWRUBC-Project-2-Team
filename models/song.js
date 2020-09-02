@@ -1,10 +1,10 @@
 module.exports = function(sequelize, DataTypes) {
-  var Song = sequelize.define("Song", {
+  const Song = sequelize.define("Song", {
     title: DataTypes.STRING
   });
 
   Song.associate = function(models) {
-    // Associating Song with 
+    // Associating Song with
     // When an Album is deleted, also delete any associated Links
     Song.hasMany(models.Link, {
       onDelete: "cascade"
