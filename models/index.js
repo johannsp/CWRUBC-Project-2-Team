@@ -19,6 +19,12 @@ if (config.password === null && process.env.DB_PASSWORD) {
   config.password = process.env.DB_PASSWORD;
 }
 
+// The API key for Last.fm should be read from a .env file or configured as an
+// environment variable in the case of Heroku.  Assume the existence of an
+// environment variable:
+//   LASTFM_API_KEY
+// and return its value in a property of the exported db.
+db.APIKey_LastFM = process.env.LASTFM_API_KEY;
 /* {{{ **
 ** if (config.use_env_variable) {
 **   var sequelize = new Sequelize(process.env[config.use_env_variable]);
