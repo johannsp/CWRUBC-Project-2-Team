@@ -26,4 +26,30 @@ module.exports = function(app) {
   app.get("/members", isAuthenticated, (req, res) => {
     res.sendFile(path.join(__dirname, "../public/members.html"));
   });
+ 
+// album route loads album.html
+app.get("/album", function(req, res) {
+  res.sendFile(path.join(__dirname, "../public/album.html"));
+});
+
+ // artist route loads album.html
+ app.get("/artist", function(req, res) {
+  res.sendFile(path.join(__dirname, "../public/artist.html"));
+});
+
+ // album route loads album.html
+ app.get("/notation", function(req, res) {
+  res.sendFile(path.join(__dirname, "../public/notation.html"));
+});
+
+ // album route loads album.html
+ app.get("/song", function(req, res) {
+  res.sendFile(path.join(__dirname, "../public/song.html"));
+});
+
+ // album route loads album.html
+ app.get("/collection", function(req, res) {
+  res.sendFile(path.join(__dirname, "../public/collection.html"));
+});
+
 };
