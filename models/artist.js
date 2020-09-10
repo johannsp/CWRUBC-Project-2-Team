@@ -1,6 +1,7 @@
 module.exports = function(sequelize, DataTypes) {
   const Artist = sequelize.define("Artist", {
-    name: DataTypes.STRING
+    name: DataTypes.STRING,
+    artLink: DataTypes.STRING
   });
 
   Artist.associate = function(models) {

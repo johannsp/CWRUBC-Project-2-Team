@@ -13,24 +13,31 @@ DROP TABLE IF EXISTS albums;
 CREATE TABLE albums (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   title VARCHAR(255) NOT NULL,
+  yearReleased INT,
+  artLink VARCHAR(255),
+  markedFavorite TINYINT(1),
   user_id INT NOT NULL,
   CONSTRAINT FK_album_userId FOREIGN KEY (user_id)
   REFERENCES users(id)
 );
 
-DROP TABLE IF EXISTS artists;
+DROP TABLE IF EXISTS artists;/*{{{*/
 CREATE TABLE artists (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
+  artLink VARCHAR(255),
   user_id INT NOT NULL,
   CONSTRAINT FK_artist_userId FOREIGN KEY (user_id)
   REFERENCES users(id)
-);
+);/*}}}*/
 
 DROP TABLE IF EXISTS songs;
 CREATE TABLE songs (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   title VARCHAR(255) NOT NULL,
+  yearReleased INT,
+  artLink VARCHAR(255),
+  markedFavorite TINYINT(1),
   user_id INT NOT NULL,
   CONSTRAINT FK_song_userId FOREIGN KEY (user_id)
   REFERENCES users(id)
