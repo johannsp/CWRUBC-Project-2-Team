@@ -21,16 +21,6 @@ CREATE TABLE albums (
   REFERENCES users(id)
 );
 
-DROP TABLE IF EXISTS artists;/*{{{*/
-CREATE TABLE artists (
-  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(255) NOT NULL,
-  artLink VARCHAR(255),
-  user_id INT NOT NULL,
-  CONSTRAINT FK_artist_userId FOREIGN KEY (user_id)
-  REFERENCES users(id)
-);/*}}}*/
-
 DROP TABLE IF EXISTS songs;
 CREATE TABLE songs (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
