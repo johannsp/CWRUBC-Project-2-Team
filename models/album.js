@@ -1,6 +1,9 @@
 module.exports = function(sequelize, DataTypes) {
   const Album = sequelize.define("Album", {
-    title: DataTypes.STRING
+    title: DataTypes.STRING,
+    yearReleased: DataTypes.INTEGER,
+    artLink: DataTypes.STRING,
+    markedFavorite: DataTypes.BOOLEAN
   });
 
   Album.associate = function(models) {

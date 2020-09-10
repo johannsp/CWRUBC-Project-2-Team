@@ -1,6 +1,9 @@
 module.exports = function(sequelize, DataTypes) {
   const Song = sequelize.define("Song", {
-    title: DataTypes.STRING
+    title: DataTypes.STRING,
+    yearReleased: DataTypes.INTEGER,
+    artLink: DataTypes.STRING,
+    markedFavorite: DataTypes.BOOLEAN
   });
 
   Song.associate = function(models) {
