@@ -1,5 +1,10 @@
-const lastFmApiKey = "a9934be7d65f534ea8c336db02853748";
-const lastFmQueryURL = "https://ws.audioscrobbler.com/2.0/";
+// Replace direct Last.fm API call with call to our server
+// so take dataType: "jsonp" parameter out of .ajax() call
+/* {{{ **
+ * const lastFmApiKey = "***";
+ * const lastFmQueryURL = "https://ws.audioscrobbler.com/2.0/";
+ * }}} */
+const lastFmQueryURL = "/api/lastfm/";
 let songTitle;
 let artist;
 let album;
@@ -19,20 +24,60 @@ $(".btn-search").on("click", event => {
     .val()
     .trim();
 
-  if (songTitle != "") {
+  if (songTitle !== "") {
     searchCard();
     searchTrack(songTitle);
     return $("#songTitle").val("");
-  } else if (artist != "") {
+  } else if (artist !== "") {
     searchCard();
     searchArtist(artist);
     return $("#artist").val("");
-  } else if (album != "") {
+  } else if (album !== "") {
     searchCard();
     searchAlbum(album);
     return $("#album").val("");
   }
 });
+
+/* {{{ **
+ * $(".btn-submit").on("click", event => {
+ *   event.preventDefault();
+ *   console.log("click");
+ *   //variable to store input values
+ *   songTitle = $("#songTitle")
+ *     .val()
+ *     .trim();
+ *   artist = $("#artist")
+ *     .val()
+ *     .trim();
+ *   album = $("#album")
+ *     .val()
+ *     .trim();
+ *
+ *   if (songTitle !== "" && artist !== "") {
+ *     //function to call the track
+ *     getTrackInfo(songTitle, artist);
+ *
+ *     return $("#songTitle,#artist").val("");
+ *   } else if (artist !== "" && album !== "") {
+ *     //function to pull up album info
+ *     //getAlbumInfo(artist, album);
+ *
+ *     return $("#artist,#album").val("");
+ *   } else if (artist !== "") {
+ *     //function to generate buttons for artist only input
+ *     mainArtistCard();
+ *     getArtistInfo(artist);
+ *
+ *     return $("#artist").val("");
+ *   } else if (album !== "") {
+ *     albumSearch();
+ *     searchAlbum(album);
+ *
+ *     return $("#album").val("");
+ *   }
+ * });
+ * }}} */
 
 //Function to create results cards and display them
 function searchCard() {
@@ -47,108 +92,144 @@ function searchCard() {
 }
 
 //Function to search by song title
-function searchTrack(songTitle){
-    var searchTrackQueryURL = `${lastFmQueryURL}?method=track.search&track=${songTitle}&api_key=${lastFmApiKey}&format=json`;
+function searchTrack(songTitle) {
+  /* {{{ **
+   * const searchTrackQueryURL = `${lastFmQueryURL}?method=track.search&track=${songTitle}&api_key=${lastFmApiKey}&format=json`;
+   * }}} */
+  const searchTrackQueryURL = `${lastFmQueryURL}search/song/${songTitle}`;
+  console.log("∞° searchTrackQueryURL=\n" + searchTrackQueryURL);
 
-    $.ajax({
-        url: searchTrackQueryURL,
-        method: "GET",
-        dataType: "jsonp"
-    }).then(function(response){
-        console.log(response);
-        var listSearchTrack = `<div class="card flex-fill m-5 cbod lettering">
-            <h5 class="card-header text-center fontWhite">Possible songs titled: "${songTitle}"</h5>
-            <div class="card-body">
-            <div class="card-columns" id="searchTrack"></div>
-        </div>
-    </div>`;
+  /* {{{ **
+   * $.ajax({
+   *   url: searchTrackQueryURL,
+   *   method: "GET",
+   *   dataType: "jsonp"
+   * }).then()
+   * }}} */
+  $.ajax({
+    url: searchTrackQueryURL,
+    method: "GET"
+  }).then(response => {
+    console.log(response);
+    const listSearchTrack = `<div class="card flex-fill m-5 cbod lettering">
+  <h5 class="card-header text-center fontWhite">Possible songs titled: "${songTitle}"</h5>
+  <div class="card-body">
+    <div class="card-columns" id="searchTrack"></div>
+  </div>
+</div>`;
+    console.log("∞° listSearchTrack=\n" + listSearchTrack);
 
-    $("#resultsArea").html(listSearchTrack);
+    $("#displayArea").html(listSearchTrack);
 
-    for(i = 0; i < 9; i++){
-        var eachTrackSearchCard = `<div class="col-sm">
-            <div class="card m-3">
-                <h5 class="card-header text-center">${i + 1}</h5>
-                <div class="card-body">
-                    <h5 class="card-title text-center">Title: "${response.results.trackmatches.track[i].name}"</h5>
-                    <p class="card-text text-center">Artist: "${response.results.trackmatches.track[i].artist}"</p>
-                    <a href="${response.results.trackmatches.track[i].url}">Learn more</a>
-                </div>
-            </div>
-        </div>`;
+    for (let i = 0; i < 9; i++) {
+      // prettier-ignore
+      const eachTrackSearchCard = `<div class="col-sm">
+  <div class="card m-3">
+    <h5 class="card-header text-center">${i + 1}</h5>
+    <div class="card-body">
+      <h5 class="card-title text-center">Title: "${response.results.trackmatches.track[i].name}"</h5>
+      <p class="card-text text-center">Artist: "${response.results.trackmatches.track[i].artist}"</p>
+      <a target="_blank" href="${response.results.trackmatches.track[i].url}">Learn more</a>
+    </div>
+  </div>
+</div>`;
+      // prettier-ignore
+      console.log("∞° i="+i+"; eachTrackSearchCard=\n" + eachTrackSearchCard);
 
-        $("#searchTrack").append(eachTrackSearchCard);
+      $("#searchTrack").append(eachTrackSearchCard);
+    }
+  });
+}
 
 //Function to search by album
-function searchAlbum(album){
-    var searchAlbumQueryURL = `${lastFmQueryURL}?method=album.search&album=${album}&api_key=${lastFmApiKey}&format=json`;
+function searchAlbum(album) {
+  /* {{{ **
+   * const searchAlbumQueryURL = `${lastFmQueryURL}?method=album.search&album=${album}&api_key=${lastFmApiKey}&format=json`;
+   * }}} */
+  const searchAlbumQueryURL = `${lastFmQueryURL}search/album/${album}`;
+  console.log("∞° searchAlbumQueryURL=\n" + searchAlbumQueryURL);
 
-    $.ajax({
-        url: searchAlbumQueryURL,
-        method: "GET",
-        dataType: "jsonp"
-    }).then(function(response){
-        console.log(response);
-        console.log(response.results["@attr"]);
-        var listSearchAlbums = `<div class="card flex-fill m-5 cbod lettering">
-            <h5 class="card-header text-center fontWhite">Possible albums with title: "${response.results["@attr"].for}"</h5>
-            <div class="card-body">
-            <div class="card-columns" id="searchAlbums"></div>
-        </div>
-    </div>`;
+  /* {{{ **
+   * $.ajax({
+   *   url: searchAlbumQueryURL,
+   *   method: "GET",
+   *   dataType: "jsonp"
+   * }).then()
+   * }}} */
+  $.ajax({
+    url: searchAlbumQueryURL,
+    method: "GET"
+  }).then(response => {
+    console.log(response);
+    console.log(response.results["@attr"]);
+    const listSearchAlbums = `<div class="card flex-fill m-5 cbod lettering">
+  <h5 class="card-header text-center fontWhite">Possible albums with title: "${response.results["@attr"].for}"</h5>
+    <div class="card-body">
+      <div class="card-columns" id="searchAlbums"></div>
+    </div>
+</div>`;
 
     $("#displayArea").html(listSearchAlbums);
 
-    for(i = 0; i < 9; i++){
-        var eachAlbumSearchCard = `<div class="col-sm">
-            <div class="card m-3">
-                <h5 class="card-header text-center">${i + 1}</h5>
-                <div class="card-body">
-                    <h5 class="card-title text-center">Album Title: "${response.results.albummatches.album[i].name}"</h5>
-                    <p class="card-text text-center">Artist: "${response.results.albummatches.album[i].artist}"</p>
-                    <a href="${response.results.albummatches.album[i].url}">Learn more</a>
-                </div>
-            </div>
-        </div>`;
+    for (i = 0; i < 9; i++) {
+      // prettier-ignore
+      const eachAlbumSearchCard = `<div class="col-sm">
+  <div class="card m-3">
+    <h5 class="card-header text-center">${i + 1}</h5>
+    <div class="card-body">
+      <h5 class="card-title text-center">Album Title: "${response.results.albummatches.album[i].name}"</h5>
+      <p class="card-text text-center">Artist: "${response.results.albummatches.album[i].artist}"</p>
+      <a target="_blank" href="${response.results.albummatches.album[i].url}">Learn more</a>
+    </div>
+  </div>
+</div>`;
 
-        $("#searchAlbums").append(eachAlbumSearchCard);
-        
-        };
-    });
-};
+      $("#searchAlbums").append(eachAlbumSearchCard);
+    }
+  });
+}
 
 //Function to search by artist
-function searchArtist(artist){
-    var searchArtistQueryURL = `${lastFmQueryURL}?method=artist.search&artist=${artist}&api_key=${lastFmApiKey}&format=json`;
+function searchArtist(artist) {
+  /* {{{ **
+   * const searchArtistQueryURL = `${lastFmQueryURL}?method=artist.search&artist=${artist}&api_key=${lastFmApiKey}&format=json`;
+   * }}} */
+  const searchArtistQueryURL = `${lastFmQueryURL}search/artist/${artist}`;
+  console.log("∞° searchArtistQueryURL=\n" + searchArtistQueryURL);
 
-    $.ajax({
-        url: searchArtistQueryURL,
-        method: "GET",
-        dataType: "jsonp"
-    }).then(function(response){
-        console.log(response);
-        var listSearchArtist = `<div class="card flex-fill m-5 cbod lettering">
-            <h5 class="card-header text-center fontWhite">Possible artists named: "${response.results["@attr"].for}"</h5>
-            <div class="card-body">
-            <div class="card-columns" id="searchArtist"></div>
-        </div>
-    </div>`;
+  /* {{{ **
+   * $.ajax({
+   *   url: searchArtistQueryURL,
+   *   method: "GET",
+   *   dataType: "jsonp"
+   * }).then()
+   * }}} */
+  $.ajax({
+    url: searchArtistQueryURL,
+    method: "GET"
+  }).then(response => {
+    console.log(response);
+    const listSearchArtist = `<div class="card flex-fill m-5 cbod lettering">
+  <h5 class="card-header text-center fontWhite">Possible artists named: "${response.results["@attr"].for}"</h5>
+  <div class="card-body">
+    <div class="card-columns" id="searchArtist"></div>
+  </div>
+</div>`;
 
     $("#displayArea").html(listSearchArtist);
 
-    for(i = 0; i < 9; i++){
-        var eachArtistSearchCard = `<div class="col-sm">
-            <div class="card m-3">
-                <h5 class="card-header text-center">${i + 1}</h5>
-                <div class="card-body">
-                    <h5 class="card-title text-center">Artist: "${response.results.artistmatches.artist[i].name}"</h5>
-                    <a href="${response.results.artistmatches.artist[i].url}">Learn more</a>
-                </div>
-            </div>
-        </div>`;
-
-        $("#searchArtist").append(eachArtistSearchCard);
-        
-        };
-    });
-};
+    for (i = 0; i < 9; i++) {
+      // prettier-ignore
+      const eachArtistSearchCard = `<div class="col-sm">
+  <div class="card m-3">
+    <h5 class="card-header text-center">${i + 1}</h5>
+    <div class="card-body">
+      <h5 class="card-title text-center">Artist: "${response.results.artistmatches.artist[i].name}"</h5>
+      <a target="_blank" href="${response.results.artistmatches.artist[i].url}">Learn more</a>
+    </div>
+  </div>
+</div>`;
+      $("#searchArtist").append(eachArtistSearchCard);
+    }
+  });
+}
