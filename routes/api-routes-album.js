@@ -5,6 +5,7 @@ const db = require("../models");
 module.exports = function(app) {
   // Find all albums and return them to the user with res.json
   app.get("/api/albums", function(req, res) {
+      console.log('data');
       ///include: [db.Post] if doing a left join
     db.Album.findAll({}).then(function(dbAlbum){
       res.json(dbAlbum);
@@ -16,7 +17,7 @@ module.exports = function(app) {
     db.Album.findOne({
       where: {
         id: req.params.id
-      }
+        }
     }).then(function(dbAlbum) {
       res.json(dbAlbum);
     });
