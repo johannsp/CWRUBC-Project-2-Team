@@ -8,14 +8,9 @@ module.exports = function(sequelize, DataTypes) {
   });
 
   Notation.associate = function(models) {
-    // A Notation should belong either to an Album, an Artist, or a Song
+    // A Notation should belong either to an Album or a Song
     // There are not firm foreign key constraints since multiple join points are possible
     Notation.belongsTo(models.Album, {
-      foreignKey: {
-        allowNull: true
-      }
-    });
-    Notation.belongsTo(models.Artist, {
       foreignKey: {
         allowNull: true
       }
