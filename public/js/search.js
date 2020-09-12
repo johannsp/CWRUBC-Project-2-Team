@@ -97,7 +97,7 @@ function searchTrack(songTitle) {
    * const searchTrackQueryURL = `${lastFmQueryURL}?method=track.search&track=${songTitle}&api_key=${lastFmApiKey}&format=json`;
    * }}} */
   const searchTrackQueryURL = `${lastFmQueryURL}search/song/${songTitle}`;
-  console.log("∞° searchTrackQueryURL=\n" + searchTrackQueryURL);
+  console.log("searchTrackQueryURL=\n" + searchTrackQueryURL);
 
   /* {{{ **
    * $.ajax({
@@ -117,29 +117,67 @@ function searchTrack(songTitle) {
     <div class="card-columns" id="searchTrack"></div>
   </div>
 </div>`;
-    console.log("∞° listSearchTrack=\n" + listSearchTrack);
 
     $("#displayArea").html(listSearchTrack);
 
     for (let i = 0; i < 9; i++) {
+      const rowData = response.results.trackmatches.track[i];
+      // Select which response data to display and save
+      const title = rowData.name;
+      const artist = rowData.artist;
+      const lastfmURL = rowData.url;
+      const imageURL = rowData.image[3]["#text"];
       // prettier-ignore
       const eachTrackSearchCard = `<div class="col-sm">
   <div class="card m-3">
     <h5 class="card-header text-center">${i + 1}</h5>
     <div class="card-body">
-      <h5 class="card-title text-center">Title: "${response.results.trackmatches.track[i].name}"</h5>
-      <p class="card-text text-center">Artist: "${response.results.trackmatches.track[i].artist}"</p>
-      <a target="_blank" href="${response.results.trackmatches.track[i].url}">Learn more</a>
+      <h5 class="card-title text-center">Title: "${title}"</h5>
+      <p class="card-text text-center">Artist: "${artist}"</p>
+      <a target="_blank" href="${lastfmURL}">Learn more</a>
+      <button class="pick-song"
+        data-id="${i}"
+        data-title="${title}"
+        data-artist="${artist}"
+        data-image="${imageURL}"
+        >Add it </button>
     </div>
   </div>
 </div>`;
-      // prettier-ignore
-      console.log("∞° i="+i+"; eachTrackSearchCard=\n" + eachTrackSearchCard);
-
       $("#searchTrack").append(eachTrackSearchCard);
     }
   });
 }
+
+$(document).on("click", ".pick-song", () => {
+  const id = $(this).data("id");
+  const title = $(this).data("title");
+  const artist = $(this).data("artist");
+  const image = $(this).data("image");
+  console.log("∞° title=\n" + title);
+  console.log("∞° artist=\n" + artist);
+  console.log("∞° image=\n" + image);
+  console.log("∞° id=\n" + id);
+
+  const bodyObj = {
+    title: "",
+    yearReleased: 0,
+    artLink: image,
+    markedFavorite: false
+  };
+  bodyObj.title = title;
+  console.log("∞° bodyObj=\n" + JSON.stringify(bodyObj));
+
+  // Send the UPDATE request.
+  $.ajax("/api/songs/", {
+    type: "POST",
+    body: bodyObj
+  }).then(() => {
+    console.log(`saving:, id=${id} title=${title} artist=${artist}`);
+    // Reload the page to get the updated list
+    //location.reload();
+  });
+});
 
 //Function to search by album
 function searchAlbum(album) {
@@ -147,7 +185,7 @@ function searchAlbum(album) {
    * const searchAlbumQueryURL = `${lastFmQueryURL}?method=album.search&album=${album}&api_key=${lastFmApiKey}&format=json`;
    * }}} */
   const searchAlbumQueryURL = `${lastFmQueryURL}search/album/${album}`;
-  console.log("∞° searchAlbumQueryURL=\n" + searchAlbumQueryURL);
+  console.log("searchAlbumQueryURL=\n" + searchAlbumQueryURL);
 
   /* {{{ **
    * $.ajax({
@@ -195,7 +233,7 @@ function searchArtist(artist) {
    * const searchArtistQueryURL = `${lastFmQueryURL}?method=artist.search&artist=${artist}&api_key=${lastFmApiKey}&format=json`;
    * }}} */
   const searchArtistQueryURL = `${lastFmQueryURL}search/artist/${artist}`;
-  console.log("∞° searchArtistQueryURL=\n" + searchArtistQueryURL);
+  console.log("searchArtistQueryURL=\n" + searchArtistQueryURL);
 
   /* {{{ **
    * $.ajax({

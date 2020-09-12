@@ -34,7 +34,9 @@ body{
 }
 .card {
   background-color: #c3073f;
-  width: 300px;
+  /* {{{ **
+   * width: 300px;
+   * }}} */
 }
 
 .red{
