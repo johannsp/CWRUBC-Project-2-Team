@@ -23,7 +23,7 @@ module.exports = function(app) {
 
   app.post("/api/albums", (req, res) => {
     // Create an Album with the data available to us in req.body
-    console.log(`POST: /api/albums req.body=${req.body}`);
+    console.log(`POST: /api/albums req.body=${JSON.stringify(req.body)}`);
     db.Album.create(req.body).then(dbAlbum => {
       res.json(dbAlbum);
     });

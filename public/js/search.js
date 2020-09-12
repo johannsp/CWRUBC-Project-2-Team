@@ -151,30 +151,34 @@ $(document).ready(() => {
   }
 
   $(document).on("click", ".pick-song", () => {
-    const id = $(this).data("id");
-    const title = $(this).data("title");
-    const artist = $(this).data("artist");
-    const image = $(this).data("image");
+    const id = $(this).attr("data-id");
+    /* {{{ **
+     * const title = $(this).attr("data-title");
+     * const artist = $(this).attr("data-artist");
+     * const image = $(this).attr("data-image");
+     * }}} */
+    const title = "Believe";
+    const artist = "Cher";
+    const image = "https://nosuch.org/dev/null";
+    console.log("∞° .pick-song...");
     console.log("∞° id=\n" + id);
     console.log("∞° title=\n" + title);
     console.log("∞° artist=\n" + artist);
     console.log("∞° image=\n" + image);
 
     const bodyObj = {
-      title: "",
-      artist: "",
+      title: title,
+      artist: artist,
       yearReleased: 0,
       artLink: image,
       markedFavorite: false
     };
-    bodyObj.title = title;
-    bodyObj.artist = artist;
-    console.log("∞° bodyObj=\n" + JSON.stringify(bodyObj));
+    console.log("bodyObj=\n" + JSON.stringify(bodyObj));
 
     // Send the UPDATE request.
     $.ajax("/api/songs/", {
       type: "POST",
-      body: bodyObj
+      data: bodyObj
     }).then(() => {
       console.log(`saving:, id=${id} title=${title} artist=${artist}`);
       // Reload the page to get the updated list
@@ -213,14 +217,26 @@ $(document).ready(() => {
       $("#displayArea").html(listSearchAlbums);
 
       for (i = 0; i < 9; i++) {
+        const rowData = response.results.albummatches.album[i];
+        // Select which response data to display and save
+        const title = rowData.name;
+        const artist = rowData.artist;
+        const lastfmURL = rowData.url;
+        const imageURL = rowData.image[3]["#text"];
         // prettier-ignore
         const eachAlbumSearchCard = `<div class="col-sm">
     <div class="card m-3">
       <h5 class="card-header text-center">${i + 1}</h5>
       <div class="card-body">
-        <h5 class="card-title text-center">Album Title: "${response.results.albummatches.album[i].name}"</h5>
-        <p class="card-text text-center">Artist: "${response.results.albummatches.album[i].artist}"</p>
-        <a target="_blank" href="${response.results.albummatches.album[i].url}">Learn more</a>
+        <h5 class="card-title text-center">Album Title: "${title}"</h5>
+        <p class="card-text text-center">Artist: "${artist}"</p>
+        <a target="_blank" href="${lastfmURL}">Learn more</a>
+        <button class="pick-album"
+          data-id="${i}"
+          data-title="${title}"
+          data-artist="${artist}"
+          data-image="${imageURL}"
+          >Add it </button>
       </div>
     </div>
   </div>`;
@@ -229,6 +245,42 @@ $(document).ready(() => {
       }
     });
   }
+
+  $(document).on("click", ".pick-album", () => {
+    const id = $(this).attr("data-id");
+    /* {{{ **
+     * const title = $(this).attr("data-title");
+     * const artist = $(this).attr("data-artist");
+     * const image = $(this).attr("data-image");
+     * }}} */
+    const title = "Believe";
+    const artist = "Cher";
+    const image = "https://nosuch.org/dev/null";
+    console.log("∞° .pick-song...");
+    console.log("∞° id=\n" + id);
+    console.log("∞° title=\n" + title);
+    console.log("∞° artist=\n" + artist);
+    console.log("∞° image=\n" + image);
+
+    const bodyObj = {
+      title: title,
+      artist: artist,
+      yearReleased: 0,
+      artLink: image,
+      markedFavorite: false
+    };
+    console.log("bodyObj=\n" + JSON.stringify(bodyObj));
+
+    // Send the UPDATE request.
+    $.ajax("/api/albums/", {
+      type: "POST",
+      data: bodyObj
+    }).then(() => {
+      console.log(`saving:, id=${id} title=${title} artist=${artist}`);
+      // Reload the page to get the updated list
+      //location.reload();
+    });
+  });
 
   //Function to search by artist
   function searchArtist(artist) {

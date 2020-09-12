@@ -23,7 +23,7 @@ module.exports = function(app) {
 
   app.post("/api/songs", (req, res) => {
     //Create a notation with the data available to us in req.body
-    console.log(`POST: /api/songs req.body=${req.body}`);
+    console.log(`POST: /api/songs req.body=${JSON.stringify(req.body)}`);
     db.Song.create(req.body).then(dbSong => {
       res.json(dbSong);
     });
