@@ -150,21 +150,20 @@ $(document).ready(() => {
     });
   }
 
-  $(document).on("click", ".pick-song", () => {
-    const id = $(this).attr("data-id");
+  $(document).on("click", ".pick-song", event => {
+    event.preventDefault();
+    // NB. for some reason $(this) is pointing to the wrong node, likely
+    // Window, so use $(event.target) as a work-around.
+    const id = $(event.target).attr("data-id");
+    const title = $(event.target).attr("data-title");
+    const artist = $(event.target).attr("data-artist");
+    const image = $(event.target).attr("data-image");
     /* {{{ **
-     * const title = $(this).attr("data-title");
-     * const artist = $(this).attr("data-artist");
-     * const image = $(this).attr("data-image");
+     * // Test data to verify save works; disable to accept real data
+     * const title = "Believe";
+     * const artist = "Cher";
+     * const image = "https://nosuch.org/dev/null";
      * }}} */
-    const title = "Believe";
-    const artist = "Cher";
-    const image = "https://nosuch.org/dev/null";
-    console.log("∞° .pick-song...");
-    console.log("∞° id=\n" + id);
-    console.log("∞° title=\n" + title);
-    console.log("∞° artist=\n" + artist);
-    console.log("∞° image=\n" + image);
 
     const bodyObj = {
       title: title,
@@ -246,21 +245,20 @@ $(document).ready(() => {
     });
   }
 
-  $(document).on("click", ".pick-album", () => {
-    const id = $(this).attr("data-id");
+  $(document).on("click", ".pick-album", event => {
+    event.preventDefault();
+    // NB. for some reason $(this) is pointing to the wrong node, likely
+    // Window, so use $(event.target) as a work-around.
+    const id = $(event.target).attr("data-id");
+    const title = $(event.target).attr("data-title");
+    const artist = $(event.target).attr("data-artist");
+    const image = $(event.target).attr("data-image");
     /* {{{ **
-     * const title = $(this).attr("data-title");
-     * const artist = $(this).attr("data-artist");
-     * const image = $(this).attr("data-image");
+     * // Test data to verify save works; disable to accept real data
+     * const title = "Believe";
+     * const artist = "Cher";
+     * const image = "https://nosuch.org/dev/null";
      * }}} */
-    const title = "Believe";
-    const artist = "Cher";
-    const image = "https://nosuch.org/dev/null";
-    console.log("∞° .pick-song...");
-    console.log("∞° id=\n" + id);
-    console.log("∞° title=\n" + title);
-    console.log("∞° artist=\n" + artist);
-    console.log("∞° image=\n" + image);
 
     const bodyObj = {
       title: title,
