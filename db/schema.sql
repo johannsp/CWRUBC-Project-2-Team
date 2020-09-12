@@ -13,6 +13,7 @@ DROP TABLE IF EXISTS albums;
 CREATE TABLE albums (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   title VARCHAR(255) NOT NULL,
+  artist VARCHAR(255),
   yearReleased INT,
   artLink VARCHAR(255),
   markedFavorite TINYINT(1),
@@ -25,6 +26,7 @@ DROP TABLE IF EXISTS songs;
 CREATE TABLE songs (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   title VARCHAR(255) NOT NULL,
+  artist VARCHAR(255),
   yearReleased INT,
   artLink VARCHAR(255),
   markedFavorite TINYINT(1),

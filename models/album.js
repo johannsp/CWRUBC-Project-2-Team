@@ -1,6 +1,7 @@
 module.exports = function(sequelize, DataTypes) {
   const Album = sequelize.define("Album", {
     title: DataTypes.STRING,
+    artist: DataTypes.STRING,
     yearReleased: DataTypes.INTEGER,
     artLink: DataTypes.STRING,
     markedFavorite: DataTypes.BOOLEAN
