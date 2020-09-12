@@ -10,8 +10,7 @@ $(document).ready(() => {
       method: "GET"
     }).then(response => {
       response.forEach(item => {
-        console.log("∞° item=\n" + JSON.stringify(item));
-        const collectionCards = `<div class="card text-center m-5" style="width: 14rem;">
+        const collectionCards = `<div class="card text-center m-5" style="width: 22rem;">
   <p class="card-header text-center">${item.title} by ${item.artist}</p>
   <div class="card-body">
     <div class="justify-content-center"">
@@ -26,8 +25,7 @@ $(document).ready(() => {
         method: "GET"
       }).then(response => {
         response.forEach(item => {
-          console.log("∞° item=\n" + JSON.stringify(item));
-          const collectionCards = `<div class="card text-center m-5" style="width: 14rem;">
+          const collectionCards = `<div class="card text-center m-5" style="width: 22rem;">
   <p class="card-header text-center">${item.title} by ${item.artist}</p>
   <div class="card-body">
     <div class="justify-content-center"">
