@@ -33,7 +33,3 @@ module.exports = function(sequelize, DataTypes) {
   });
   return User;
 };
-<<<<<<< HEAD
-
-=======
->>>>>>> a26b546588f0fcb23a560339f0ebcff0bb0c16d2

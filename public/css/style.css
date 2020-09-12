@@ -1,0 +1,50 @@
+form.signup,
+form.login {
+  margin-top: 50px;
+}
+
+body{
+  background-color:  #1a1a1d;
+}
+
+.navbar-custom .navbar-brand,
+.navbar-custom .navbar-text {
+  text-emphasis: bold;
+  color: #1a1a1d;
+  padding-top: 20px;
+  font-size: 30px;
+  font-kerning: normal;
+}
+.navbar-custom{
+  background-color: #c3073f;
+}
+
+.navbar-custom .navbar-nav .nav-link{
+  color: #1a1a1d;
+  text-emphasis: bold;
+}
+
+.text{
+  color: #c3073f;
+  font-size: 20px;
+}
+
+.jumbotron {
+  margin-top: 50px;
+}
+.card {
+  background-color: #c3073f;
+  width: 300px;
+}
+
+.red{
+  color: #c3073f; 
+}
+
+h2{
+  margin-top: 50px;
+}
+footer {
+  color: #c3073f;
+  text-align: center;
+}
