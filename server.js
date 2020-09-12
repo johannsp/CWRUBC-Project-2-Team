@@ -22,21 +22,26 @@ app.use(passport.session());
 
 // Requiring our routes
 require("./routes/html-routes.js")(app);
+require("./routes/api-routes-album.js")(app);
+require("./routes/api-routes-notation.js")(app);
+require("./routes/api-routes-song.js")(app);
 require("./routes/api-routes.js")(app);
 require("./routes/api-routes-album.js")(app);
 require("./routes/api-routes-notation.js")(app);
 require("./routes/api-routes-song.js")(app);
-require("./routes/post-api-routes.js")(app);
+//require("./routes/post-api-routes.js")(app);
 // Last.fm third-party API routes
 require("./routes/lastFm-api-routes.js")(app, db.APIKey_LastFM);
 
 // Syncing our database and logging a message to the user upon success
 db.sequelize
   .sync({
-    // Drop database and all tables on each restart of server
-    force: true,
-    // but only in development account, not test or production
-    match: /_dev$/
+    /* {{{ **
+     * // Drop database and all tables on each restart of server
+     * force: true,
+     * // but only in development account, not test or production
+     * match: /_dev$/
+     * }}} */
   })
   .then(() => {
     app.listen(PORT, () => {

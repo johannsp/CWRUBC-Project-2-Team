@@ -1,0 +1,3 @@
+DROP DATABASE IF EXISTS vinylD_dev;
+CREATE DATABASE vinylD_dev;
+USE vinylD_dev;
